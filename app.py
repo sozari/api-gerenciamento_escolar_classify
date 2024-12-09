@@ -14,7 +14,7 @@ from professor_update import professor_update_bp
 from professor_delete import professor_delete_bp
 from usuario_list import usuario_list_bp
 from login import login_bp
-
+from turma_cadastro import turma_cadastro_bp
 app = Flask(__name__)
 
 # Registro de Blueprints
@@ -31,6 +31,7 @@ app.register_blueprint(professor_update_bp)
 app.register_blueprint(professor_delete_bp)
 app.register_blueprint(usuario_list_bp)
 app.register_blueprint(login_bp)
+app.register_blueprint(turma_cadastro_bp)
 
 # Definição de uma chave secreta simples
 app.secret_key = 'minha_chave_secreta_123'

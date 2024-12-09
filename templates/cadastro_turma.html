@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Cadastro de Alunos</title>
+    <title>Cadastro de Turmas</title>
     <link rel="stylesheet" href="../static/css/style_formulario.css">
     <script>
         async function handleFormSubmit(event) {
@@ -20,11 +20,11 @@
                     showSuccessMessage();
                     form.reset(); // Limpa o formulário após sucesso
                 } else {
-                    alert("Erro ao cadastrar aluno. Tente novamente.");
+                    alert("Erro ao cadastrar turma. Tente novamente.");
                 }
             } catch (error) {
                 console.error("Erro ao processar o formulário:", error);
-                alert("Erro ao cadastrar aluno. Tente novamente.");
+                alert("Erro ao cadastrar turma. Tente novamente.");
             }
         }
 
@@ -62,43 +62,29 @@
         </aside>
 
         <div class="main-content">
-            <h2>Cadastro de Alunos</h2>
+            <h2>Cadastro de Turmas</h2>
 
             <!-- Mensagem de sucesso -->
             <div id="success-message" style="display: none; background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                Aluno cadastrado com sucesso!
+                Turma cadastrada com sucesso!
             </div>
 
             <!-- Formulário de cadastro -->
-            <form id="cadastro-form" action="/aluno_cadastro" method="POST" class="form" onsubmit="handleFormSubmit(event)">
+            <form id="cadastro-form" action="{{ url_for('turma_cadastro_bp.submit_formulario') }}" method="POST" class="form">
                 <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required>
+                    <label for="nome_turma">Nome da Turma</label>
+                    <input type="text" id="nome_turma" name="nome_turma" placeholder="Digite o nome da turma" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="Digite o e-mail" required>
-                </div>
-                <div class="form-group">
-                    <label for="senha">Senha</label>
-                    <input type="password" id="senha" name="senha" placeholder="Digite a senha" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefone_responsavel">Telefone do Responsável</label>
-                    <input type="text" id="telefone_responsavel" name="telefone_responsavel" placeholder="Digite o telefone do responsável" required>
-                </div>
-                <div class="form-group">
-                    <label for="idturma">Selecione a Turma</label>
-                    <select name="idturma" id="idturma" required>
-                        <option value="" disabled selected>Escolha uma turma</option>
-                        {% for turma in turmas %}
-                            <option value="{{ turma[0] }}">{{ turma[1] }}</option>
+                    <label for="idprofessor">Escolha o Professor</label>
+                    <select id="idprofessor" name="idprofessor" required>
+                        {% for professor in professores %}
+                            <option value="{{ professor[0] }}">{{ professor[1] }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                
-                <button type="submit" class="submit-btn">Cadastrar Aluno</button>
-            </form>
+                <button type="submit" class="submit-btn">Cadastrar Turma</button>
+            </form>            
         </div>
     </div>
 </body>
