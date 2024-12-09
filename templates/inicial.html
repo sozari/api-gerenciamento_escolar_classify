@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="..\static\css\style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1 class="logo">CLASSIFY</h1>
+            <nav class="menu">
+                <ul>
+                    <li><a href="../usuario_list.html">Tabela de Usuários</a></li>
+                    <li>
+                        <a href="#" class="submenu-toggle">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="{{ url_for('adm_cadastro_bp.mostrar_formulario') }}">Cadastro de Administradores</a></li>
+                            <li><a href="{{ url_for('aluno_cadastro_bp.mostrar_formulario') }}">Cadastro de Alunos</a></li>
+                            <li><a href="{{ url_for('professor_cadastro_bp.mostrar_formulario') }}">Cadastro de Professores</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Turmas</a></li>
+                    <li><a href="#">Caixa de entrada</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <h2>Artificial Intelligence</h2>
+                <div class="search-user">
+                    <input type="text" placeholder="Search">
+                    <div class="user-info">
+                        <span>Kayla Barnes</span>
+                        <img src="https://via.placeholder.com/40" alt="User">
+                    </div>
+                </div>
+            </header>
+            <section class="dashboard">
+                <div class="progress">
+                    <div class="card">
+                        <h3>Attendance</h3>
+                        <p>20/20</p>
+                    </div>
+                    <div class="card">
+                        <h3>Homework</h3>
+                        <p>19/20</p>
+                    </div>
+                    <div class="card">
+                        <h3>Rating</h3>
+                        <p>85/100</p>
+                    </div>
+                </div>
+                <div class="schedule">
+                    <div class="calendar">
+                        <h3>My Schedule</h3>
+                        <p>October 2024</p>
+                        <div class="calendar-grid">
+                            <span>10</span><span>13</span><span>15</span><span>18</span>
+                        </div>
+                    </div>
+                    <div class="lessons">
+                        <h3>Upcoming Events</h3>
+                        <div class="lesson">
+                            <p><strong>Robotics Lesson</strong></p>
+                            <p>10:00 - 11:00</p>
+                        </div>
+                        <div class="lesson">
+                            <p><strong>Electronics Lesson</strong></p>
+                            <p>13:00 - 14:00</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style_lista.css">
+    <title>Painel de Usuários</title>
+    <script>
+        // Função para buscar os dados da API e preencher a tabela
+        async function carregarUsuarios() {
+            try {
+                const resposta = await fetch('/usuario_list'); 
+                if (!resposta.ok) throw new Error('Erro ao carregar os usuários');
+                const usuarios = await resposta.json(); 
+
+                const tabela = document.querySelector('tbody');
+                tabela.innerHTML = ''; 
+
+                usuarios.forEach(usuario => {
+                    const linha = document.createElement('tr');
+                    linha.innerHTML = `
+                        <td>${usuario.idusuario}</td>
+                        <td>${usuario.nome}</td>
+                        <td>${usuario.email}</td>
+                        <td>${usuario.tipo_usuario}</td>
+                        <td>
+                            <button class="btn" onclick="editarUsuario(${usuario.idusuario}, '${usuario.tipo_usuario}')">Editar</button>
+                            <button class="btn btn-delete" onclick="deletarUsuario(${usuario.idusuario}, '${usuario.tipo_usuario}')">Excluir</button>
+                        </td>
+                    `;
+                    tabela.appendChild(linha); 
+                });
+            } catch (erro) {
+                console.error('Erro ao carregar os usuários:', erro);
+            } 
+        }
+
+        function editarUsuario(idusuario, tipo_usuario) {
+            window.location.href = `/usuario_update.html?idusuario=${idusuario}&tipo_usuario=${tipo_usuario}`;
+        }
+
+        async function deletarUsuario(idusuario, tipo_usuario) {
+            const confirmacao = confirm('Tem certeza que deseja excluir este usuário?');
+            if (!confirmacao) return;
+
+            try {
+                const response = await fetch(`/usuario_delete/${idusuario}`, {
+                    method: 'DELETE',
+                });
+                if (!response.ok) throw new Error('Erro ao excluir o usuário');
+                alert('Usuário excluído com sucesso!');
+                carregarUsuarios(); 
+            } catch (erro) {
+                console.error('Erro ao excluir o usuário:', erro);
+                alert('Erro ao excluir o usuário. Verifique o console para mais detalhes.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarUsuarios);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h1 class="logo">CLASSIFY</h1>
+            <nav class="menu">
+                <ul>
+                    <a href="{{ url_for('inicial') }}">Inicio</a>
+                    <li>
+                        <a href="#" class="submenu-toggle">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="{{ url_for('adm_cadastro_bp.mostrar_formulario') }}">Cadastro de Administradores</a></li>
+                            <li><a href="{{ url_for('aluno_cadastro_bp.mostrar_formulario') }}">Cadastro de Alunos</a></li>
+                            <li><a href="{{ url_for('professor_cadastro_bp.mostrar_formulario') }}">Cadastro de Professores</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Turmas</a></li>
+                    <li><a href="#">Caixa de entrada</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="content">
+            <h1>Usuários</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Tipo de Usuário</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            
+        </div>
+    </div>
+</body>
+</html>

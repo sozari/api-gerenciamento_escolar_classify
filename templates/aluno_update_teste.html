@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Aluno</title>
+</head>
+<body>
+    <form action="/aluno_update/13/aluno" method="POST" id="updateForm">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('updateForm');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            fetch('/aluno_update/13/aluno', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert('Dados atualizados!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erro ao atualizar dados.');
+            });
+        });
+    </script>
+</body>
+</html>
