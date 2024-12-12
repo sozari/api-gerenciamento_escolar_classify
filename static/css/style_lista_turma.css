@@ -1,0 +1,193 @@
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Container Principal */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Menu Lateral */
+.sidebar {
+    background-color: #004d4d; /* Verde escuro */
+    color: white;
+    width: 250px;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto; /* Rolagem caso o menu lateral fique grande */
+}
+
+.logo {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav li {
+    margin: 10px 0;
+}
+
+.sidebar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.sidebar nav a:hover {
+    background-color: #006666; /* Cor mais clara ao passar o mouse */
+}
+
+/* Submenu */
+.sidebar .menu .submenu {
+    display: none;
+    list-style: none;
+    margin-top: 10px;
+    padding-left: 15px;
+    border-left: 1px solid #ddd;
+}
+
+.sidebar .menu li:hover .submenu {
+    display: block;
+}
+
+.sidebar .menu .submenu a {
+    font-size: 16px;
+    color: #ddd;
+}
+
+.sidebar .menu .submenu a:hover {
+    color: white;
+}
+
+/* Conteúdo Principal */
+.content {
+    margin-left: 250px; /* Espaço para o menu lateral */
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content h2 {
+    color: #004d4d; /* Verde escuro */
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.content .search-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.content .search-user input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.content .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.content .user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background-color: #004d4d;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Botões de Ações */
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    background-color: #007BFF;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #DC3545;
+}
+
+.btn-delete:hover {
+    background-color: #a71d2a;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin-left: 200px;
+    }
+
+    table th, table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    select, button {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Escolha a Turma</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1 class="logo">CLASSIFY</h1>
+            <nav class="menu">
+                <ul>
+                    <li><a href="../usuario_list.html">Tabela de Usuários</a></li>
+                    <li>
+                        <a href="#" class="submenu-toggle">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="{{ url_for('adm_cadastro_bp.mostrar_formulario') }}">Cadastro de Administradores</a></li>
+                            <li><a href="{{ url_for('aluno_cadastro_bp.mostrar_formulario') }}">Cadastro de Alunos</a></li>
+                            <li><a href="{{ url_for('professor_cadastro_bp.mostrar_formulario') }}">Cadastro de Professores</a></li>
+                            <li><a href="{{ url_for('turma_cadastro_bp.mostrar_formulario') }}">Cadastro de Turmas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Turmas</a></li>
+                    <li><a href="#">Caixa de entrada</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <div class="main-content">
+            <h2>Escolha a Turma</h2>
+            <form action="/turma/{idTurma}/alunos" method="GET">
+                <label for="turma">Selecione a Turma:</label>
+                <select name="idTurma" id="turma" required>
+                    <!-- Exemplo de opções, você irá gerar dinamicamente com as turmas disponíveis -->
+                    <option value="1">Turma 1</option>
+                    <option value="2">Turma 2</option>
+                    <option value="3">Turma 3</option>
+                </select>
+                <button type="submit">Ir para Turma</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

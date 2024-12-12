@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style_lista_turma.css">
+    <title>Lista de Alunos - CLASSIFY</title>
+    <script>
+        async function carregarAlunos(idTurma) {
+            try {
+                const resposta = await fetch(`/alunos/${idTurma}`);
+                if (!resposta.ok) throw new Error('Erro ao carregar os alunos');
+                const alunos = await resposta.json();
+
+                const tabela = document.querySelector('tbody');
+                tabela.innerHTML = '';
+
+                alunos.forEach(aluno => {
+                    const linha = document.createElement('tr');
+                    linha.innerHTML = `
+                        <td>${aluno.idaluno}</td>
+                        <td>${aluno.nome_aluno}</td>
+                        <td>${aluno.nota1 || ''}</td>
+                        <td>${aluno.nota2 || ''}</td>
+                        <td>${aluno.nota3 || ''}</td>
+                        <td>${aluno.media || ''}</td>
+                        <td>
+                            <button class="btn" onclick="editarNotas(${aluno.idaluno}, ${idTurma})">Editar Notas</button>
+                        </td>
+                    `;
+                    tabela.appendChild(linha);
+                });
+            } catch (erro) {
+                console.error('Erro ao carregar os alunos:', erro);
+            }
+        }
+
+        function editarNotas(idAluno, idTurma) {
+            window.location.href = `/editar_notas.html?idAluno=${idAluno}&idTurma=${idTurma}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const idTurma = new URLSearchParams(window.location.search).get('idTurma');
+            if (idTurma) carregarAlunos(idTurma);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1 class="logo">CLASSIFY</h1>
+            <nav class="menu">
+                <ul>
+                    <li><a href="../usuario_list.html">Tabela de Usuários</a></li>
+                    <li>
+                        <a href="#" class="submenu-toggle">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="{{ url_for('adm_cadastro_bp.mostrar_formulario') }}">Cadastro de Administradores</a></li>
+                            <li><a href="{{ url_for('aluno_cadastro_bp.mostrar_formulario') }}">Cadastro de Alunos</a></li>
+                            <li><a href="{{ url_for('professor_cadastro_bp.mostrar_formulario') }}">Cadastro de Professores</a></li>
+                            <li><a href="{{ url_for('turma_cadastro_bp.mostrar_formulario') }}">Cadastro de Turmas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Turmas</a></li>
+                    <li><a href="#">Caixa de entrada</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="content">
+            <header class="header">
+                <h2>Lista de Alunos da Turma</h2>
+                <div class="search-user">
+                    <input type="text" placeholder="Buscar aluno...">
+                    <div class="user-info">
+                        <span>Usuário Atual</span>
+                        <img src="https://via.placeholder.com/40" alt="Usuário">
+                    </div>
+                </div>
+            </header>
+            <section class="dashboard">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Nota 1</th>
+                            <th>Nota 2</th>
+                            <th>Nota 3</th>
+                            <th>Média</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

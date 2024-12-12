@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style_formulario.css">
     <title>Editar Usuário</title>
     <script>
         // Função para redirecionar para a lista de usuários após o envio
@@ -12,19 +13,52 @@
     </script>
 </head>
 <body>
-    <h1>Editar Usuário</h1>
-    <!-- Formulário de edição -->
-    <form action="/usuario_update/{{ usuario[0] }}" method="POST" onsubmit="event.preventDefault(); this.submit();">
-        <label for="name">Nome:</label>
-        <input type="text" id="name" name="name" value="{{ usuario[1] }}" placeholder="Digite o nome" required>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1 class="logo">CLASSIFY</h1>
+            <nav class="menu">
+                <ul>
+                    <li><a href="{{ url_for('inicial') }}">Início</a></li>
+                    <li><a href="{{ url_for('usuario_list_bp.listar_usuarios_html') }}">Tabela de Usuários</a></li>
+                    <li>
+                        <a href="#" class="submenu-toggle">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="{{ url_for('adm_cadastro_bp.mostrar_formulario') }}">Cadastro de Administradores</a></li>
+                            <li><a href="{{ url_for('aluno_cadastro_bp.mostrar_formulario') }}">Cadastro de Alunos</a></li>
+                            <li><a href="{{ url_for('professor_cadastro_bp.mostrar_formulario') }}">Cadastro de Professores</a></li>
+                            <li><a href="{{ url_for('turma_cadastro_bp.mostrar_formulario') }}">Cadastro de Turmas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Turmas</a></li>
+                    <li><a href="#">Caixa de entrada</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="{{ usuario[2] }}" placeholder="Digite o email" required>
+        <div class="main-content">
+            <h2>Editar Usuário</h2>
+            <!-- Formulário de edição -->
+            <form action="/usuario_update/{{ usuario[0] }}" method="POST" onsubmit="event.preventDefault(); this.submit();" class="form">
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" value="{{ usuario[1] }}" placeholder="Digite o nome" required>
+                </div>
 
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" placeholder="Digite a nova senha">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ usuario[2] }}" placeholder="Digite o email" required>
+                </div>
 
-        <button type="submit" onclick="redirecionarParaLista()">Salvar Alterações</button>
-    </form>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" placeholder="Digite a nova senha">
+                </div>
+
+                <button type="submit" class="submit-btn" onclick="redirecionarParaLista()">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
