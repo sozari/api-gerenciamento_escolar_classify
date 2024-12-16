@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for
 from utils import connect_to_database  # Importando a função de conexão do utils.py
 
 # Criando o Blueprint
@@ -21,9 +21,14 @@ def selecionar_turma():
 
     return render_template('turma_select.html', turmas=turmas)
 
+
 # Endpoint para listar alunos de uma turma
-@turma_bp.route('/turmas/<int:id_turma>', methods=['GET'])
-def listar_alunos_turma(id_turma):
+@turma_bp.route('/turmas', methods=['GET'])
+def listar_alunos_turma():
+    id_turma = request.args.get('idTurma')  # Pega o idTurma da query string
+    if not id_turma:
+        return "Turma não especificada", 400
+
     conn = connect_to_database()  # Usando a função de conexão do utils.py
     if conn is None:
         return "Erro ao conectar ao banco de dados", 500

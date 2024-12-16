@@ -16,6 +16,10 @@ from usuario_list import usuario_list_bp
 from login import login_bp
 from turma_cadastro import turma_cadastro_bp
 from turma import turma_bp 
+from turma_routes import turma_routes_bp
+
+
+
 
 app = Flask(__name__)
 
@@ -35,6 +39,7 @@ app.register_blueprint(usuario_list_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(turma_cadastro_bp)
 app.register_blueprint(turma_bp, url_prefix='/')
+app.register_blueprint(turma_routes_bp)  # Nome atualizado, sem conflitos
 
 # Definição de uma chave secreta simples
 app.secret_key = 'minha_chave_secreta_123'
