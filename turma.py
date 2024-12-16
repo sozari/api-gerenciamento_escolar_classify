@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request
 from utils import connect_to_database  # Importando a função de conexão do utils.py
 
 # Criando o Blueprint
@@ -23,7 +23,7 @@ def selecionar_turma():
 
 
 # Endpoint para listar alunos de uma turma
-@turma_bp.route('/turmas', methods=['GET'])
+@turma_bp.route('/turmas/alunos', methods=['GET'])
 def listar_alunos_turma():
     id_turma = request.args.get('idTurma')  # Pega o idTurma da query string
     if not id_turma:

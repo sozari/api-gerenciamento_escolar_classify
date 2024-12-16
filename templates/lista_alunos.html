@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos</title>
+</head>
+<body>
+    <h1>Lista de Alunos</h1>
+
+    {% if alunos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Aluno</th>
+                <th>Nota 1</th>
+                <th>Nota 2</th>
+                <th>Nota 3</th>
+                <th>Média</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno.nome_aluno }}</td>
+                <td>{{ aluno.nota1 or '-' }}</td>
+                <td>{{ aluno.nota2 or '-' }}</td>
+                <td>{{ aluno.nota3 or '-' }}</td>
+                <td>{{ aluno.media or '-' }}</td>
+                <!-- Link para editar as notas do aluno -->
+                <td><a href="{{ url_for('notas_bp.editar_notas', aluno_id=aluno.idaluno) }}" class="btn-editar">Editar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>Nenhum aluno encontrado.</p>
+    {% endif %}
+</body>
+</html>

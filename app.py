@@ -17,6 +17,7 @@ from login import login_bp
 from turma_cadastro import turma_cadastro_bp
 from turma import turma_bp 
 from turma_routes import turma_routes_bp
+from notas import notas_bp
 
 
 
@@ -40,6 +41,7 @@ app.register_blueprint(login_bp)
 app.register_blueprint(turma_cadastro_bp)
 app.register_blueprint(turma_bp, url_prefix='/')
 app.register_blueprint(turma_routes_bp)  # Nome atualizado, sem conflitos
+app.register_blueprint(notas_bp, url_prefix='/notas')  # Opcional: Usar um prefixo para as rotas do Blueprint
 
 # Definição de uma chave secreta simples
 app.secret_key = 'minha_chave_secreta_123'

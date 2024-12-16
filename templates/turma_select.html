@@ -13,6 +13,7 @@
             <h1 class="logo">CLASSIFY</h1>
             <nav class="menu">
                 <ul>
+                    <li><a href="{{ url_for('inicial') }}">Início</a></li>
                     <li><a href="../usuario_list.html">Tabela de Usuários</a></li>
                     <li>
                         <a href="#" class="submenu-toggle">Cadastros</a>
@@ -33,7 +34,7 @@
         <!-- Conteúdo Principal -->
 <div class="main-content">
     <h2>Escolha a Turma</h2>
-    <form action="/turmas" method="GET">
+    <form action="/turmas/alunos" method="GET">
         <label for="turma">Selecione a Turma:</label>
         <select name="idTurma" id="turma" required>
             {% for turma in turmas %}
@@ -42,6 +43,7 @@
         </select>
         <button type="submit">Ir para Turma</button>
     </form>
+    
     
     
     

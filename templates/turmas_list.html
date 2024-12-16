@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Turmas</title>
+</head>
+<body>
+    <h1>Escolha uma Turma</h1>
+
+    <!-- Formulário para selecionar a turma -->
+    <form action="/turmas" method="GET">
+        <label for="turma">Selecione a Turma:</label>
+        <select name="idTurma" id="turma" required>
+            {% for turma in turmas %}
+                <option value="{{ turma.idturma }}" {% if turma.idturma == id_turma %}selected{% endif %}>
+                    {{ turma.nome_turma }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Ir para a Turma</button>
+    </form>
+
+    {% if alunos %}
+    <h2>Alunos da Turma</h2>
+    <!-- Tabela de alunos da turma selecionada -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Aluno</th>
+                <th>Nota 1</th>
+                <th>Nota 2</th>
+                <th>Nota 3</th>
+                <th>Média</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno.nome_aluno }}</td>
+                <td>{{ aluno.nota1 or '-' }}</td>
+                <td>{{ aluno.nota2 or '-' }}</td>
+                <td>{{ aluno.nota3 or '-' }}</td>
+                <td>{{ aluno.media or '-' }}</td>
+                <td><a href="{{ url_for('notas_bp.editar_notas', aluno_id=aluno.id) }}" class="btn-editar">Editar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>Nenhum aluno encontrado para esta turma.</p>
+    {% endif %}
+</body>
+</html>
