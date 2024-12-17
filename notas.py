@@ -12,7 +12,7 @@ def listar_alunos():
         return "Erro ao conectar ao banco de dados."
 
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM alunos")
+    cursor.execute("SELECT * FROM aluno")  # Alterado de 'alunos' para 'aluno'
     alunos = cursor.fetchall()
     connection.close()
 
@@ -20,8 +20,6 @@ def listar_alunos():
     print(alunos[0])  # Isso vai mostrar o primeiro aluno no console
 
     return render_template('lista_alunos.html', alunos=alunos)
-
-
 
 @notas_bp.route('/editar/<int:aluno_id>', methods=['GET', 'POST'])
 def editar_notas(aluno_id):
@@ -38,7 +36,7 @@ def editar_notas(aluno_id):
 
         # Atualiza as notas no banco de dados usando 'idaluno'
         cursor.execute("""
-            UPDATE alunos
+            UPDATE aluno
             SET nota1 = %s, nota2 = %s, nota3 = %s
             WHERE idaluno = %s
         """, (nova_nota1, nova_nota2, nova_nota3, aluno_id))
@@ -48,9 +46,13 @@ def editar_notas(aluno_id):
 
         return redirect(url_for('notas_bp.listar_alunos'))
 
-    cursor.execute("SELECT * FROM alunos WHERE idaluno = %s", (aluno_id,))
+    cursor.execute("SELECT * FROM aluno WHERE idaluno = %s", (aluno_id,))
     aluno = cursor.fetchone()
+
     connection.close()
 
-    return render_template('editar_notas.html', aluno=aluno)
+    if aluno is None:
+        # Se aluno não encontrado, redireciona para a lista de alunos ou exibe uma mensagem de erro
+        return "Aluno não encontrado", 404  # Pode redirecionar ou exibir uma página de erro
 
+    return render_template('editar_notas.html', aluno=aluno)
