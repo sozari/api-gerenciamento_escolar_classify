@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="../static/css/style_formulario.css">
     <script>
         async function handleFormSubmit(event) {
-            event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+            event.preventDefault();
 
             const form = document.getElementById('cadastro-form');
             const formData = new FormData(form);
@@ -18,7 +18,7 @@
 
                 if (response.ok) {
                     showSuccessMessage();
-                    form.reset(); // Limpa o formulário após sucesso
+                    form.reset();
                 } else {
                     alert("Erro ao cadastrar aluno. Tente novamente.");
                 }
@@ -33,13 +33,12 @@
             successMessage.style.display = 'block';
             setTimeout(() => {
                 successMessage.style.display = 'none';
-            }, 5000); // A mensagem de sucesso será escondida após 5 segundos
+            }, 5000);
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <h1 class="logo">CLASSIFY</h1>
             <nav class="menu">
@@ -65,12 +64,10 @@
         <div class="main-content">
             <h2>Cadastro de Alunos</h2>
 
-            <!-- Mensagem de sucesso -->
             <div id="success-message" style="display: none; background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
                 Aluno cadastrado com sucesso!
             </div>
 
-            <!-- Formulário de cadastro -->
             <form id="cadastro-form" action="/aluno_cadastro" method="POST" class="form" onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label for="nome">Nome</label>

@@ -33,7 +33,8 @@ def selecionar_turma():
             n.nota1,
             n.nota2,
             n.nota3,
-            n.media
+            n.media,
+            n.idnota  -- Incluindo idnota na consulta
         FROM
             aluno a
         JOIN

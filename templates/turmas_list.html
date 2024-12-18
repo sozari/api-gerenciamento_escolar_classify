@@ -23,7 +23,7 @@
 
     {% if alunos %}
     <h2>Alunos da Turma</h2>
-    <!-- Tabela de alunos da turma selecionada -->
+    <!-- Tabela de alunos da turma selecionada -->  
     <table>
         <thead>
             <tr>
@@ -37,12 +37,18 @@
         <tbody>
             {% for aluno in alunos %}
             <tr>
-                <td>{{ aluno.nome_aluno }}</td>
+                <td>{{ aluno.nome_aluno }}</td>  <!-- Usando nome_aluno do JOIN -->
                 <td>{{ aluno.nota1 or '-' }}</td>
                 <td>{{ aluno.nota2 or '-' }}</td>
                 <td>{{ aluno.nota3 or '-' }}</td>
                 <td>{{ aluno.media or '-' }}</td>
-                <td><a href="{{ url_for('notas_bp.editar_notas', aluno_id=aluno.id) }}" class="btn-editar">Editar</a></td>
+                <td>
+                    {% if aluno.idnota %}
+                    <td><a href="{{ url_for('notas_bp.editar_notas', idnota=aluno.idnota) }}" class="btn-editar">Editar</a></td>
+                    {% else %}
+                        <span>Sem nota</span>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

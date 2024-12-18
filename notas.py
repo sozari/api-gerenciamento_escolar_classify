@@ -12,17 +12,24 @@ def listar_alunos():
         return "Erro ao conectar ao banco de dados."
 
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM aluno")  # Alterado de 'alunos' para 'aluno'
-    alunos = cursor.fetchall()
-    connection.close()
 
-    # Verificando a estrutura dos dados para garantir que 'idaluno' é a chave correta
-    print(alunos[0])  # Isso vai mostrar o primeiro aluno no console
+    # Selecionando alunos, suas notas e o nome do aluno da tabela 'usuarios'
+    cursor.execute("""
+    SELECT a.idaluno, u.nome AS nome_aluno, n.nota1, n.nota2, n.nota3, n.media, t.nome_turma, n.idnota
+    FROM aluno a
+    LEFT JOIN notas n ON a.idusuario = n.idusuario
+    LEFT JOIN turmas t ON a.idturma = t.idturma
+    LEFT JOIN usuarios u ON a.idusuario = u.idusuario
+""")
+    alunos = cursor.fetchall()
+
+    connection.close()
 
     return render_template('lista_alunos.html', alunos=alunos)
 
-@notas_bp.route('/editar/<int:aluno_id>', methods=['GET', 'POST'])
-def editar_notas(aluno_id):
+
+@notas_bp.route('/editar/<int:idnota>', methods=['GET', 'POST'])
+def editar_notas(idnota):
     connection = connect_to_database()
     if connection is None:
         return "Erro ao conectar ao banco de dados."
@@ -34,25 +41,33 @@ def editar_notas(aluno_id):
         nova_nota2 = request.form['nota2']
         nova_nota3 = request.form['nota3']
 
-        # Atualiza as notas no banco de dados usando 'idaluno'
+        # Atualizando as notas no banco de dados usando 'idnota'
         cursor.execute("""
-            UPDATE aluno
+            UPDATE notas
             SET nota1 = %s, nota2 = %s, nota3 = %s
-            WHERE idaluno = %s
-        """, (nova_nota1, nova_nota2, nova_nota3, aluno_id))
+            WHERE idnota = %s
+        """, (nova_nota1, nova_nota2, nova_nota3, idnota))
 
         connection.commit()
         connection.close()
 
         return redirect(url_for('notas_bp.listar_alunos'))
 
-    cursor.execute("SELECT * FROM aluno WHERE idaluno = %s", (aluno_id,))
-    aluno = cursor.fetchone()
+    # Buscando as notas do aluno com o 'idnota'
+    cursor.execute("""
+        SELECT n.idnota, n.nota1, n.nota2, n.nota3, n.media, u.nome AS nome_aluno, t.nome_turma 
+        FROM notas n
+        LEFT JOIN aluno a ON n.idusuario = a.idusuario
+        LEFT JOIN turmas t ON a.idturma = t.idturma
+        LEFT JOIN usuarios u ON a.idusuario = u.idusuario
+        WHERE n.idnota = %s
+    """, (idnota,))
+    nota = cursor.fetchone()
 
     connection.close()
 
-    if aluno is None:
-        # Se aluno não encontrado, redireciona para a lista de alunos ou exibe uma mensagem de erro
-        return "Aluno não encontrado", 404  # Pode redirecionar ou exibir uma página de erro
+    if nota is None:
+        return "Nota não encontrada", 404  # Retorna erro se a nota não for encontrada
 
-    return render_template('editar_notas.html', aluno=aluno)
+    return render_template('editar_notas.html', nota=nota)
+
