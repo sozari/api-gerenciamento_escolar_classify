@@ -22,37 +22,38 @@
     </form>
 
     {% if alunos %}
-    <h2>Alunos da Turma</h2>
-    <!-- Tabela de alunos da turma selecionada -->  
-    <table>
-        <thead>
-            <tr>
-                <th>Nome do Aluno</th>
-                <th>Nota 1</th>
-                <th>Nota 2</th>
-                <th>Nota 3</th>
-                <th>Média</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for aluno in alunos %}
-            <tr>
-                <td>{{ aluno.nome_aluno }}</td>  <!-- Usando nome_aluno do JOIN -->
-                <td>{{ aluno.nota1 or '-' }}</td>
-                <td>{{ aluno.nota2 or '-' }}</td>
-                <td>{{ aluno.nota3 or '-' }}</td>
-                <td>{{ aluno.media or '-' }}</td>
-                <td>
-                    {% if aluno.idnota %}
-                    <td><a href="{{ url_for('notas_bp.editar_notas', idnota=aluno.idnota) }}" class="btn-editar">Editar</a></td>
-                    {% else %}
-                        <span>Sem nota</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <h2>Alunos da Turma {{ turmas[0].nome_turma }}</h2>
+        <!-- Tabela de alunos da turma selecionada -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome do Aluno</th>
+                    <th>Nota 1</th>
+                    <th>Nota 2</th>
+                    <th>Nota 3</th>
+                    <th>Média</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                    <tr>
+                        <td>{{ aluno.nome_aluno }}</td>
+                        <td>{{ aluno.nota1 if aluno.nota1 is not none else '-' }}</td>
+                        <td>{{ aluno.nota2 if aluno.nota2 is not none else '-' }}</td>
+                        <td>{{ aluno.nota3 if aluno.nota3 is not none else '-' }}</td>
+                        <td>{{ aluno.media if aluno.media is not none else '-' }}</td>
+                        <td>
+                            {% if aluno.idnota %}
+                                <a href="{{ url_for('notas_bp.editar_notas', idnota=aluno.idnota) }}" class="btn-editar">Editar</a>
+                            {% else %}
+                                <a href="{{ url_for('notas_bp.criar_notas', idaluno=aluno.idaluno) }}" class="btn-adicionar">Adicionar Notas</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         <p>Nenhum aluno encontrado para esta turma.</p>
     {% endif %}

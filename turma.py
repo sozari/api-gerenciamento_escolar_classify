@@ -27,24 +27,22 @@ def selecionar_turma():
     if id_turma:  # Se uma turma foi selecionada
         # Consulta para buscar os alunos da turma
         query = """
-        SELECT
-            a.idusuario AS id,
-            u.nome AS nome_aluno,
-            n.nota1,
-            n.nota2,
-            n.nota3,
-            n.media,
-            n.idnota  -- Incluindo idnota na consulta
-        FROM
-            aluno a
-        JOIN
-            usuarios u ON a.idusuario = u.idusuario
-        LEFT JOIN
-            notas n ON a.idaluno = n.idusuario AND n.idturma = %s
-        WHERE
-            a.idturma = %s
+        SELECT 
+            a.idaluno, 
+            u.nome AS nome_aluno, 
+            n.idnota, 
+            n.nota1, 
+            n.nota2, 
+            n.nota3, 
+            n.media, 
+            t.nome_turma
+        FROM aluno a
+        LEFT JOIN notas n ON a.idusuario = n.idusuario
+        LEFT JOIN turmas t ON a.idturma = t.idturma
+        LEFT JOIN usuarios u ON a.idusuario = u.idusuario
+        WHERE t.idturma = %s;
         """
-        cursor.execute(query, (id_turma, id_turma))
+        cursor.execute(query, (id_turma,))
         alunos = cursor.fetchall()
 
     conn.close()
