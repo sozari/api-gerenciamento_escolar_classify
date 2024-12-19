@@ -6,67 +6,63 @@ import mysql.connector
 # Definindo o Blueprint
 aluno_cadastro_bp = Blueprint('aluno_cadastro_bp', __name__)
 
-# Rota para exibir o formulário de cadastro de aluno
 @aluno_cadastro_bp.route('/aluno_cadastro', methods=['GET'])
 def mostrar_formulario():
     try:
         with connect_to_database() as mydb:
             mycursor = mydb.cursor()
             mycursor.execute("SELECT idturma, nome_turma FROM turmas")
-            turmas = mycursor.fetchall()  # Retorna lista de turmas
-
-        return render_template('cadastro_aluno.html', turmas=turmas)  # Passa a lista de turmas para o template
+            turmas = mycursor.fetchall()
+        return render_template('cadastro_aluno.html', turmas=turmas)
     except mysql.connector.Error as error:
-        return jsonify({'error': f'Erro ao carregar formulário: {error}'}), 500
+        print(f"Erro ao carregar o formulário: {error}")
+        return jsonify({'error': f"Erro ao carregar o formulário: {str(error)}"}), 500
 
-# Rota para processar os dados do formulário
 @aluno_cadastro_bp.route('/aluno_cadastro', methods=['POST'])
 def submit_formulario():
+    nome = request.form['nome']
+    email = request.form['email']
+    senha = request.form['senha']
+    telefone_responsavel = request.form['telefone_responsavel']
+    idturma = request.form['idturma']
+
+    if not nome or not email or not senha or not telefone_responsavel or not idturma:
+        return jsonify({'mensagem': 'Todos os campos são obrigatórios!'}), 400
+
+    senha_hash = generate_password_hash(senha)
+
+    # Queries SQL corrigidas
+    sql_usuario = "INSERT INTO usuarios (nome, email, senha, tipo_usuario) VALUES (%s, %s, %s, %s)"
+    sql_aluno = "INSERT INTO aluno (idusuario, telefone_responsavel, idturma) VALUES (%s, %s, %s)"
+    sql_notas = "INSERT INTO notas (idusuario, idturma) VALUES (%s, %s)"
+
     try:
-        # Captura dos dados do formulário
-        nome = request.form['nome']
-        email = request.form['email']
-        senha = request.form['senha']
-        telefone_responsavel = request.form['telefone_responsavel']
-        idturma = request.form['idturma']
-
-        print("Dados recebidos:", nome, email, senha, telefone_responsavel, idturma)
-
-        # Criptografia da senha
-        senha_hash = generate_password_hash(senha)
-
-        # Queries SQL
-        sql_usuario = "INSERT INTO usuarios (nome, email, senha, tipo_usuario) VALUES (%s, %s, %s, %s)"
-        sql_aluno = "INSERT INTO aluno (idusuario, telefone_responsavel, idturma) VALUES (%s, %s, %s)"
-        sql_notas = """
-        INSERT INTO notas (idusuario, idturma, nota1, nota2, nota3, media)
-        VALUES (%s, %s, NULL, NULL, NULL, NULL)
-        """
-
         with connect_to_database() as mydb:
             mycursor = mydb.cursor()
 
-            # Inserção na tabela 'usuarios'
-            print("Executando query de usuario")
+            # Inserindo na tabela 'usuarios'
             mycursor.execute(sql_usuario, (nome, email, senha_hash, 'aluno'))
-            idusuario = mycursor.lastrowid  # Obtém o ID do usuário
-            print("Usuario inserido com ID:", idusuario)
+            idusuario = mycursor.lastrowid  # Capturando o ID gerado
+            print(f"Usuário inserido com ID: {idusuario}")
 
-            # Inserção na tabela 'aluno'
-            print("Executando query de aluno")
+            # Inserindo na tabela 'aluno'
             mycursor.execute(sql_aluno, (idusuario, telefone_responsavel, idturma))
+            print(f"Aluno inserido com idusuario={idusuario} e idturma={idturma}")
 
-            # Inserção na tabela 'notas'
-            print("Executando query de notas")
+            # Inserindo na tabela 'notas'
             mycursor.execute(sql_notas, (idusuario, idturma))
+            print(f"Notas iniciais criadas para idusuario={idusuario} e idturma={idturma}")
 
-            # Confirma alterações
+            # Confirmando transações
             mydb.commit()
-            print("Cadastro concluído com sucesso!")
+            print("Cadastro finalizado com sucesso!")
 
             return redirect(url_for('aluno_cadastro_bp.mostrar_formulario'))
 
     except mysql.connector.Error as error:
-        print("Erro ao cadastrar aluno:", error)
-        return jsonify({'error': f'Erro ao cadastrar aluno: {error}'}), 500
+        print(f"Erro no banco de dados: {error}")
+        return jsonify({'error': f"Erro ao cadastrar aluno: {str(error)}"}), 500
 
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        return jsonify({'error': f"Erro inesperado: {str(e)}"}), 500
