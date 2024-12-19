@@ -1,0 +1,240 @@
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Container Principal */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Menu Lateral */
+.sidebar {
+    background-color: #004d4d;
+    color: white;
+    width: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100%;
+}
+
+.logo {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav li {
+    margin: 10px 0;
+}
+
+.sidebar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.sidebar nav a:hover {
+    background-color: #006666;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 250px;
+}
+
+.main-content h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Formulário */
+.form-turma {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.form-turma label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-turma select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-turma button.btn-editar {
+    padding: 10px;
+    background-color: #28a745; /* Cor do botão "Editar" */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.form-turma button.btn-editar:hover {
+    background-color: #218838;
+}
+
+.form-turma button:hover {
+    background-color: #0056b3;
+}
+
+/* Tabela de Alunos */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background-color: #004d4d;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Botões */
+.btn-editar {
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-editar:hover {
+    background-color: #218838;
+}
+
+.btn-adicionar {
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-adicionar:hover {
+    background-color: #0056b3;
+}
+
+.sidebar {
+    background-color: #004d4d;
+    color: white;
+    width: 250px;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar .menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar .menu li {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.sidebar .menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 8px 0;
+}
+
+
+.sidebar .menu .submenu {
+    display: none;
+    list-style: none;
+    margin-top: 10px;
+    margin-left: 15px;
+    padding-left: 10px;
+    border-left: 1px solid #ddd;
+}
+
+.sidebar .menu .submenu li {
+    margin-bottom: 10px;
+}
+
+.sidebar .menu .submenu a {
+    font-size: 16px;
+    color: #ddd;
+}
+
+
+.sidebar .menu li:hover .submenu {
+    display: block;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+
+
+
+.content {
+    margin-left: 250px; 
+
+}
+

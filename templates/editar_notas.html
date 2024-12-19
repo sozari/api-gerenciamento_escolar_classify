@@ -4,24 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Notas</title>
+    <link rel="stylesheet" href="../static/css/style_formulario2.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_formulario.css') }}">
+
 </head>
 <body>
-    <h1>Editar Notas de {{ nota.nome_aluno }}</h1>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1 class="logo">CLASSIFY</h1>
+            <nav class="menu">
+                <ul>
+                    <li><a href="{{ url_for('inicial') }}">Início</a></li>
+                    <li><a href="../usuario_list.html">Tabela de Usuários</a></li>
+                    <li>
+                        <a href="#" class="submenu-toggle">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="{{ url_for('adm_cadastro_bp.mostrar_formulario') }}">Cadastro de Administradores</a></li>
+                            <li><a href="{{ url_for('aluno_cadastro_bp.mostrar_formulario') }}">Cadastro de Alunos</a></li>
+                            <li><a href="{{ url_for('professor_cadastro_bp.mostrar_formulario') }}">Cadastro de Professores</a></li>
+                            <li><a href="{{ url_for('turma_cadastro_bp.mostrar_formulario') }}">Cadastro de Turmas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ url_for('turma_bp.selecionar_turma') }}">Turmas</a></li>
+                    <li><a href="#">Caixa de entrada</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-    <form action="{{ url_for('notas_bp.editar_notas', idnota=nota.idnota) }}" method="POST">
-        <div>
-            <label for="nota1">Nota 1:</label>
-            <input type="number" name="nota1" id="nota1" value="{{ nota.nota1 }}" required>
+        <div class="main-content">
+            <div class="header">
+                <h2>Editar Notas de {{ nota.nome_aluno }}</h2>
+            </div>
+
+            <div class="form-section">
+                <form action="{{ url_for('notas_bp.editar_notas', idnota=nota.idnota) }}" method="POST" class="form">
+                    <div class="form-group">
+                        <label for="nota1">Nota 1:</label>
+                        <input type="number" name="nota1" id="nota1" value="{{ nota.nota1 }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nota2">Nota 2:</label>
+                        <input type="number" name="nota2" id="nota2" value="{{ nota.nota2 }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nota3">Nota 3:</label>
+                        <input type="number" name="nota3" id="nota3" value="{{ nota.nota3 }}" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Salvar</button>
+                </form>
+            </div>
         </div>
-        <div>
-            <label for="nota2">Nota 2:</label>
-            <input type="number" name="nota2" id="nota2" value="{{ nota.nota2 }}" required>
-        </div>
-        <div>
-            <label for="nota3">Nota 3:</label>
-            <input type="number" name="nota3" id="nota3" value="{{ nota.nota3 }}" required>
-        </div>
-        <button type="submit">Salvar</button>
-    </form>
+    </div>
 </body>
 </html>

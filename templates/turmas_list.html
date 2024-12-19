@@ -3,59 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Turmas</title>
+    <title>Escolha uma Turma</title>
+    <link rel="stylesheet" href="../static/css/style_turma.css">
 </head>
 <body>
-    <h1>Escolha uma Turma</h1>
+    <div class="container">
+        <aside class="sidebar">
+            <h1 class="logo">CLASSIFY</h1>
+            <nav class="menu">
+                <ul>
+                    <li><a href="{{ url_for('inicial') }}">Início</a></li>
+                    <li><a href="../usuario_list.html">Tabela de Usuários</a></li>
+                    <li>
+                        <a href="#" class="submenu-toggle">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="{{ url_for('adm_cadastro_bp.mostrar_formulario') }}">Cadastro de Administradores</a></li>
+                            <li><a href="{{ url_for('aluno_cadastro_bp.mostrar_formulario') }}">Cadastro de Alunos</a></li>
+                            <li><a href="{{ url_for('professor_cadastro_bp.mostrar_formulario') }}">Cadastro de Professores</a></li>
+                            <li><a href="{{ url_for('turma_cadastro_bp.mostrar_formulario') }}">Cadastro de Turmas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ url_for('turma_bp.selecionar_turma') }}">Turmas</a></li>
+                    <li><a href="#">Caixa de entrada</a></li>
+                    <li><a href="#">Configurações</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-    <!-- Formulário para selecionar a turma -->
-    <form action="/turmas" method="GET">
-        <label for="turma">Selecione a Turma:</label>
-        <select name="idTurma" id="turma" required>
-            {% for turma in turmas %}
-                <option value="{{ turma.idturma }}" {% if turma.idturma == id_turma %}selected{% endif %}>
-                    {{ turma.nome_turma }}
-                </option>
-            {% endfor %}
-        </select>
-        <button type="submit">Ir para a Turma</button>
-    </form>
+        <div class="main-content">
+            <h1>Escolha uma Turma</h1>
+            <form action="/turmas" method="GET" class="form-turma">
+                <label for="turma">Selecione a Turma:</label>
+                <select name="idTurma" id="turma" required>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.idturma }}" {% if turma.idturma == id_turma %}selected{% endif %}>
+                            {{ turma.nome_turma }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn-editar">Ir para a Turma</button>
+            </form>
 
-    {% if alunos %}
-        <h2>Alunos da Turma {{ turmas[0].nome_turma }}</h2>
-        <!-- Tabela de alunos da turma selecionada -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome do Aluno</th>
-                    <th>Nota 1</th>
-                    <th>Nota 2</th>
-                    <th>Nota 3</th>
-                    <th>Média</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for aluno in alunos %}
-                    <tr>
-                        <td>{{ aluno.nome_aluno }}</td>
-                        <td>{{ aluno.nota1 if aluno.nota1 is not none else '-' }}</td>
-                        <td>{{ aluno.nota2 if aluno.nota2 is not none else '-' }}</td>
-                        <td>{{ aluno.nota3 if aluno.nota3 is not none else '-' }}</td>
-                        <td>{{ aluno.media if aluno.media is not none else '-' }}</td>
-                        <td>
-                            {% if aluno.idnota %}
-                                <a href="{{ url_for('notas_bp.editar_notas', idnota=aluno.idnota) }}" class="btn-editar">Editar</a>
-                            {% else %}
-                                <a href="{{ url_for('notas_bp.criar_notas', idaluno=aluno.idaluno) }}" class="btn-adicionar">Adicionar Notas</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Nenhum aluno encontrado para esta turma.</p>
-    {% endif %}
+            {% if alunos %}
+                <h2>Alunos da Turma {{ turmas[0].nome_turma }}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome do Aluno</th>
+                            <th>Nota 1</th>
+                            <th>Nota 2</th>
+                            <th>Nota 3</th>
+                            <th>Média</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aluno in alunos %}
+                            <tr>
+                                <td>{{ aluno.nome_aluno }}</td>
+                                <td>{{ aluno.nota1 if aluno.nota1 is not none else '-' }}</td>
+                                <td>{{ aluno.nota2 if aluno.nota2 is not none else '-' }}</td>
+                                <td>{{ aluno.nota3 if aluno.nota3 is not none else '-' }}</td>
+                                <td>{{ aluno.media if aluno.media is not none else '-' }}</td>
+                                <td>
+                                    {% if aluno.idnota %}
+                                        <a href="{{ url_for('notas_bp.editar_notas', idnota=aluno.idnota) }}" class="btn-editar">Editar</a>
+                                    {% else %}
+                                        <a href="{{ url_for('notas_bp.criar_notas', idaluno=aluno.idaluno) }}" class="btn-adicionar">Adicionar Notas</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
